@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>M&amp;S — لوحة الإدارة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Cairo"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            obsidian: '#0b0b0d',
+            charcoal: '#131317',
+            charcoalSoft: '#19191f',
+            crimsonRich: '#8b151e',
+            crimsonBright: '#b91c28',
+            ivory: '#f5f3ef',
+            ash: '#a39e98',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root,
+    :root[data-theme="dark"] {
+      --ground-obsidian: #0b0b0d;
+      --surface-soft: #19191f;
+      --text-ivory: #f5f3ef;
+      --text-ash: #a39e98;
+      --accent-crimson: #c92a37;
+      --border-hairline: rgba(245, 243, 239, 0.11);
+      --header-bg: rgba(11, 11, 13, 0.9);
+      --toast-bg: #18181d;
+      --page-bg-image:
+        radial-gradient(circle at 86% 0%, rgba(139, 21, 30, 0.18), transparent 44%),
+        linear-gradient(180deg, #0b0b0d 0%, #0e0e11 100%);
+      --card-surface: linear-gradient(180deg, #15151a 0%, #111115 100%);
+      --pill-bg: #18181e;
+      --pill-text: #d6d1ca;
+      --pill-hover-bg: #22222a;
+      --pill-hover-text: #f5f3ef;
+      --btn-crimson-grad: linear-gradient(135deg, #991620 0%, #730e16 55%, #4d080e 100%);
+      --btn-crimson-hover: linear-gradient(135deg, #b51d29 0%, #86121b 60%, #5c0b12 100%);
+      --btn-crimson-shadow: 0 6px 18px rgba(139, 21, 30, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    }
+
+    :root[data-theme="light"] {
+      --ground-obsidian: #f7f4ef;
+      --surface-soft: #f1ece4;
+      --text-ivory: #161414;
+      --text-ash: #5f5955;
+      --accent-crimson: #9e1621;
+      --border-hairline: rgba(22, 20, 20, 0.12);
+      --header-bg: rgba(247, 244, 239, 0.92);
+      --toast-bg: #18181d;
+      --page-bg-image: linear-gradient(180deg, #f7f4ef 0%, #f3efe8 100%);
+      --card-surface: linear-gradient(180deg, #ffffff 0%, #fbf9f5 100%);
+      --pill-bg: #f1ece4;
+      --pill-text: #2c2827;
+      --pill-hover-bg: #e7e0d5;
+      --pill-hover-text: #161414;
+      --btn-crimson-grad: linear-gradient(135deg, #a81824 0%, #83111a 55%, #5f0b12 100%);
+      --btn-crimson-hover: linear-gradient(135deg, #be1e2b 0%, #96141f 60%, #700e16 100%);
+      --btn-crimson-shadow: 0 6px 16px rgba(158, 22, 33, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    }
+
+    body {
+      background-color: var(--ground-obsidian);
+      color: var(--text-ivory);
+      background-image: var(--page-bg-image);
+      min-height: 100vh;
+    }
+
+    .theme-header {
+      background-color: var(--header-bg);
+      border-color: var(--border-hairline);
+    }
+
+    .theme-surface-card {
+      background-color: var(--surface-soft);
+      border-color: var(--border-hairline);
+    }
+
+    .theme-hairline-border {
+      border-color: var(--border-hairline);
+    }
+
+    .theme-muted-text {
+      color: var(--text-ash);
+    }
+
+    .theme-accent-text {
+      color: var(--accent-crimson);
+    }
+
+    .editorial-surface {
+      background: var(--card-surface);
+      border: 1px solid var(--border-hairline);
+    }
+
+    .metallic-crimson-btn {
+      background: var(--btn-crimson-grad);
+      color: #f5f3ef;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: var(--btn-crimson-shadow);
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .metallic-crimson-btn:hover {
+      background: var(--btn-crimson-hover);
+      transform: translateY(-1px);
+    }
+
+    .theme-pill-btn {
+      background-color: var(--pill-bg);
+      color: var(--pill-text);
+      border: 1px solid var(--border-hairline);
+    }
+
+    .theme-pill-btn:hover {
+      background-color: var(--pill-hover-bg);
+      color: var(--pill-hover-text);
+    }
+  </style>
+</head>
+<body class="pb-16 selection:bg-crimsonRich selection:text-ivory">
+
+  <header class="sticky top-0 z-30 backdrop-blur-md border-b theme-header">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl theme-surface-card border border-crimsonRich/45 flex items-center justify-center shrink-0">
+          <span class="font-extrabold text-sm tracking-widest">M&amp;S</span>
+        </div>
+        <h1 class="text-base sm:text-lg font-extrabold">إدارة القائمة</h1>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button
+          id="themeToggleBtn"
+          type="button"
+          onclick="toggleTheme()"
+          title="تبديل المظهر"
+          class="theme-pill-btn w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer transition"
+        >
+          <span id="themeIcon" class="text-sm leading-none">☀</span>
+        </button>
+
+        <button
+          id="signOutBtn"
+          type="button"
+          onclick="handleAdminSignOut()"
+          class="hidden theme-pill-btn px-3 py-2 rounded-xl text-xs font-bold cursor-pointer transition"
+        >
+          خروج
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 pt-8 space-y-6">
+
+    <!-- بوابة تسجيل الدخول المختصرة -->
+    <section id="loginGateSection" class="max-w-md mx-auto editorial-surface rounded-2xl p-6 sm:p-7 space-y-5 mt-6">
+      <div class="text-center space-y-1">
+        <h2 class="text-xl font-extrabold">تسجيل الدخول</h2>
+        <p class="text-xs theme-muted-text">أدخل بيانات الإدارة للمتابعة</p>
+      </div>
+
+      <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" class="space-y-4">
+        <div>
+          <label for="loginEmail" class="block text-xs font-bold mb-1.5">البريد الإلكتروني</label>
+          <input
+            id="loginEmail"
+            type="email"
+            required
+            dir="ltr"
+            placeholder="admin@example.com"
+            class="w-full rounded-xl theme-surface-card border focus:border-[#b91c28] focus:outline-none px-3.5 py-2.5 text-sm text-left"
+          />
+        </div>
+
+        <div>
+          <label for="loginPassword" class="block text-xs font-bold mb-1.5">كلمة المرور</label>
+          <input
+            id="loginPassword"
+            type="password"
+            required
+            dir="ltr"
+            placeholder="••••••••"
+            class="w-full rounded-xl theme-surface-card border focus:border-[#b91c28] focus:outline-none px-3.5 py-2.5 text-sm text-left"
+          />
+        </div>
+
+        <p id="loginErrorText" class="text-xs font-bold text-[#dc2626] hidden"></p>
+
+        <button
+          id="btnLoginSubmit"
+          type="submit"
+          class="w-full metallic-crimson-btn py-2.5 px-5 rounded-xl text-sm font-bold cursor-pointer"
+        >
+          دخول
+        </button>
+      </form>
+    </section>
+
+    <!-- مساحة الإدارة -->
+    <section id="adminWorkspaceSection" class="hidden space-y-6">
+
+      <!-- شريط التبويبات المبسط -->
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b theme-hairline-border pb-4">
+        <div class="flex items-center gap-2">
+          <button
+            id="tabBtnItems"
+            type="button"
+            onclick="switchAdminSection('items')"
+            class="metallic-crimson-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold cursor-pointer"
+          >
+            الأصناف (<span id="statItemsCount">0</span>)
+          </button>
+          <button
+            id="tabBtnCategories"
+            type="button"
+            onclick="switchAdminSection('categories')"
+            class="theme-pill-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold cursor-pointer"
+          >
+            الأقسام (<span id="statCategoriesCount">0</span>)
+          </button>
+          <button
+            id="tabBtnBrand"
+            type="button"
+            onclick="switchAdminSection('brand')"
+            class="theme-pill-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold cursor-pointer"
+          >
+            الإعدادات
+          </button>
+        </div>
+      </div>
+
+      <!-- قسم الأصناف -->
+      <div id="sectionItems" class="space-y-6">
+        <div class="editorial-surface rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 id="productFormTitle" class="text-base font-extrabold">إضافة صنف جديد</h2>
+            <button
+              id="cancelProductEditBtn"
+              type="button"
+              onclick="resetProductForm()"
+              class="hidden theme-pill-btn px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer"
+            >
+              إلغاء
+            </button>
+          </div>
+
+          <form id="productEditorForm" onsubmit="handleSaveProduct(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+            <input type="hidden" id="editingProductId" value="" />
+
+            <div>
+              <label for="prodNameAr" class="block text-xs font-bold mb-1">اسم الصنف</label>
+              <input id="prodNameAr" type="text" required placeholder="مثال: شاورما عربي دبل" class="w-full rounded-xl theme-surface-card border focus:border-[#b91c28] focus:outline-none px-3 py-2 text-sm" />
+            </div>
+
+            <div>
+              <label for="prodPrice" class="block text-xs font-bold mb-1">السعر</label>
+              <input id="prodPrice" type="number" min="0" step="100" required placeholder="68000" class="w-full rounded-xl theme-surface-card border focus:border-[#b91c28] focus:outline-none px-3 py-2 text-sm tabular-nums" />
+            </div>
+
+            <div>
+              <label for="prodCategory" class="block text-xs font-bold mb-1">القسم</label>
+              <select id="prodCategory" class="w-full rounded-xl theme-surface-card border focus:border-[#b91c28] focus:outline-none px-3 py-2 text-sm"></select>
+            </div>
+
+            <div>
+              <label for="prodBadgeAr" class="block text-xs font-bold mb-1">شارة (اختياري)</label>
+              <input id="prodBadgeAr" type="text" placeholder="مثال: اختيار اليوم" class="w-full rounded-xl theme-surface-card border focus:border-[#b91c28] focus:outline-none px-3 py-2 text-sm" />
+            </div>
+
+            <div class="sm:col-span-2">
+              <label for="prodDescAr" class="block text-xs font-bold mb-1">الوصف والمكونات</label>
+              <input id="prodDescAr" type="text" placeholder="المكونات باختصار..." class="w-full rounded-xl theme-surface-card border focus:border-[#b91c28] focus:outline-none px-3 py-2 text-sm" />
+            </div>
+
+            <div class="sm:col-span-2">
+              <label for="prodImageUrl" class="block text-xs font-bold mb-1">رابط الصورة (اختياري)</label>
+              <input id="prodImageUrl" type="url" dir="ltr" placeholder="https://..." class="w-full rounded-xl theme-surface-card border focus:border-[#b91c28] focus:outline-none px-3 py-2 text-sm text-left" />
+            </div>
+
+            <div class="sm:col-span-2 lg:col-span-4 flex flex-wrap items-center justify-between gap-3 pt-1">
+              <div class="flex flex-wrap items-center gap-4">
+                <label class="inline-flex items-center gap-2 text-xs font-bold cursor-pointer">
+                  <input id="prodAvailable" type="checkbox" checked class="w-4 h-4 accent-[#b91c28]" />
+                  <span>متوفر حالياً</span>
+                </label>
+                <label class="inline-flex items-center gap-2 text-xs font-bold cursor-pointer">
+                  <input id="prodFeatured" type="checkbox" class="w-4 h-4 accent-[#b91c28]" />
+                  <span>طبق مميز</span>
+                </label>
+              </div>
+
+              <button type="submit" class="metallic-crimson-btn px-6 py-2 rounded-xl text-xs sm:text-sm font-bold cursor-pointer">
+                حفظ الصنف
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- بحث وتصفية -->
+        <div class="flex flex-col sm:flex-row gap-3">
+          <input
+            id="adminSearchInput"
+            type="search"
+            oninput="renderProductsAdminList()"
+            placeholder="بحث سريع عن صنف..."
+            class="flex-1 rounded-xl theme-surface-card border focus:border-[#b91c28] focus:outline-none px-3.5 py-2 text-xs sm:text-sm"
+          />
+          <select
+            id="adminFilterCategorySelect"
+            onchange="renderProductsAdminList()"
+            class="sm:w-48 rounded-xl theme-surface-card border focus:border-[#b91c28] focus:outline-none px-3.5 py-2 text-xs sm:text-sm"
+          ></select>
+        </div>
+
+        <div id="adminProductsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      </div>
+
+      <!-- قسم الأقسام -->
+      <div id="sectionCategories" class="hidden space-y-5">
+        <div class="editorial-surface rounded-2xl p-5 space-y-4">
+          <h2 class="text-base font-extrabold">إضافة قسم</h2>
+          <form id="addCategoryForm" onsubmit="handleAddCategory(event)" class="flex flex-col sm:flex-row gap-3">
+            <input id="newCatAr" type="text" required placeholder="اسم القسم (مثال: مقبلات)" class="flex-1 rounded-xl theme-surface-card border focus:border-[#b91c28] focus:outline-none px-3.5 py-2 text-sm" />
+            <button type="submit" class="metallic-crimson-btn py-2 px-6 rounded-xl text-xs sm:text-sm font-bold cursor-pointer">
+              إضافة
+            </button>
+          </form>
+        </div>
+
+        <div id="adminCategoriesList" class="space-y-2.5"></div>
+      </div>
+
+      <!-- قسم الإعدادات -->
+      <div id="sectionBrand" class="hidden space-y-5">
+        <form id="brandSettingsForm" onsubmit="handleSaveBrandSettings(event)" class="editorial-surface rounded-2xl p-5 space-y-4">
+          <h2 class="text-base font-extrabold">إعدادات المطعم والطلبات</h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="brandNameAr" class="block text-xs font-bold mb-1">اسم المطعم</label>
+              <input id="brandNameAr" type="text" required class="w-full rounded-xl theme-surface-card border focus:border-[#b91c28] focus:outline-none px-3.5 py-2 text-sm" />
+            </div>
+            <div>
+              <label for="brandTaglineAr" class="block text-xs font-bold mb-1">الوصف المختصر</label>
+              <input id="brandTaglineAr" type="text" required class="w-full rounded-xl theme-surface-card border focus:border-[#b91c28] focus:outline-none px-3.5 py-2 text-sm" />
+            </div>
+            <div>
+              <label for="currencyAr" class="block text-xs font-bold mb-1">العملة</label>
+              <input id="currencyAr" type="text" required class="w-full rounded-xl theme-surface-card border focus:border-[#b91c28] focus:outline-none px-3.5 py-2 text-sm" />
+            </div>
+            <div>
+              <label for="whatsappNumberInput" class="block text-xs font-bold mb-1">رقم واتساب الطلبات</label>
+              <input id="whatsappNumberInput" type="text" required dir="ltr" placeholder="963940242745" class="w-full rounded-xl theme-surface-card border focus:border-[#b91c28] focus:outline-none px-3.5 py-2 text-sm font-mono text-left" />
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t theme-hairline-border">
+            <button
+              type="button"
+              onclick="handleSeedDefaultData()"
+              class="theme-pill-btn px-4 py-2 rounded-xl text-xs font-bold cursor-pointer"
+            >
+              استعادة الأصناف الافتراضية
+            </button>
+
+            <button type="submit" class="metallic-crimson-btn px-6 py-2 rounded-xl text-xs sm:text-sm font-bold cursor-pointer">
+              حفظ الإعدادات
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </section>
+  </main>
+
+  <div
+    id="adminToast"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] pointer-events-none opacity-0 translate-y-2 transition-all duration-200"
+  >
+    <div style="background-color: var(--toast-bg); border-color: rgba(185, 28, 40, 0.55);" class="border px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold shadow-2xl flex items-center gap-2 text-[#f5f3ef]">
+      <span class="w-1.5 h-1.5 rounded-full bg-[#dc2626]"></span>
+      <span id="adminToastText">تم الحفظ</span>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_THEME_KEY = 'ms_admin_theme_v1';
+    let currentTheme = localStorage.getItem(ADMIN_THEME_KEY) === 'light' ? 'light' : 'dark';
+    let authUser = null;
+
+    let STORE_SETTINGS = {
+      brandNameAr: 'M&S',
+      brandNameEn: 'M&S',
+      taglineAr: 'شاورما وفروج • دمشق',
+      taglineEn: 'Shawarma & Chicken • Damascus',
+      currencyAr: 'ل.س',
+      currencyEn: 'SYP',
+      whatsappNumber: '963940242745'
+    };
+
+    let CATEGORIES = [
+      { id: 'shawarma', slug: 'shawarma', nameAr: 'شاورما', nameEn: 'Shawarma', order: 1 },
+      { id: 'chicken-broasted', slug: 'chicken-broasted', nameAr: 'فروج وبروستد', nameEn: 'Chicken & Broasted', order: 2 },
+      { id: 'family-meals', slug: 'family-meals', nameAr: 'وجبات عائلية', nameEn: 'Family Meals', order: 3 },
+      { id: 'sandwiches-rockets', slug: 'sandwiches-rockets', nameAr: 'سندويش وصواريخ', nameEn: 'Sandwiches & Rockets', order: 4 },
+      { id: 'sides-sauces', slug: 'sides-sauces', nameAr: 'مقبلات وصلصات', nameEn: 'Sides & Sauces', order: 5 }
+    ];
+
+    let PRODUCTS = [
+      {
+        id: 'ms-shawarma-arabi-double',
+        nameAr: 'صحن شاورما عربي دبل',
+        nameEn: 'صحن شاورما عربي دبل',
+        category: 'shawarma',
+        price: 68000,
+        badgeAr: 'اختيار اليوم',
+        badgeEn: 'اختيار اليوم',
+        available: true,
+        featured: true,
+        image: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=900&q=80',
+        descAr: 'شرائح شاورما دجاج متبلة ومحمّرة على السيخ، مقدمة مع ثومية كريمية ومخلل وبطاطا مقرمشة.',
+        descEn: 'شرائح شاورما دجاج متبلة ومحمّرة على السيخ، مقدمة مع ثومية كريمية ومخلل وبطاطا مقرمشة.'
+      },
+      {
+        id: 'ms-broasted-8pcs',
+        nameAr: 'بروستد 8 قطع مقرمش',
+        nameEn: 'بروستد 8 قطع مقرمش',
+        category: 'chicken-broasted',
+        price: 115000,
+        badgeAr: 'مقرمش',
+        badgeEn: 'مقرمش',
+        available: true,
+        featured: false,
+        image: 'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=900&q=80',
+        descAr: '8 قطع فروج مقلية بضغط البخار بتتبيلة M&S الخاصة مع بطاطا وثوم وكاتشب وخبز.',
+        descEn: '8 قطع فروج مقلية بضغط البخار بتتبيلة M&S الخاصة مع بطاطا وثوم وكاتشب وخبز.'
+      }
+    ];
+
+    function formatPrice(amount) {
+      const num = Number(amount) || 0;
+      return `${num.toLocaleString('en-US')} ${STORE_SETTINGS.currencyAr || 'ل.س'}`;
+    }
+
+    function applyTheme(theme) {
+      currentTheme = theme === 'light' ? 'light' : 'dark';
+      localStorage.setItem(ADMIN_THEME_KEY, currentTheme);
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      document.documentElement.classList.toggle('dark', currentTheme === 'dark');
+      const iconEl = document.getElementById('themeIcon');
+      if (iconEl) iconEl.textContent = currentTheme === 'dark' ? '☀' : '☾';
+    }
+
+    function toggleTheme() {
+      applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    }
+
+    function showAdminToast(message) {
+      const toast = document.getElementById('adminToast');
+      const toastText = document.getElementById('adminToastText');
+      if (!toast || !toastText) return;
+      toastText.textContent = message;
+      toast.classList.remove('opacity-0', 'translate-y-2');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      clearTimeout(window._msAdminToastTimer);
+      window._msAdminToastTimer = setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-2');
+      }, 2200);
+    }
+
+    function updateAuthView() {
+      const isAuthorized = Boolean(authUser);
+      document.getElementById('loginGateSection').classList.toggle('hidden', isAuthorized);
+      document.getElementById('adminWorkspaceSection').classList.toggle('hidden', !isAuthorized);
+      document.getElementById('signOutBtn').classList.toggle('hidden', !isAuthorized);
+
+      if (isAuthorized) {
+        populateBrandForm();
+        refreshAllAdminViews();
+      }
+    }
+
+    async function handleAdminLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const errEl = document.getElementById('loginErrorText');
+      const btn = document.getElementById('btnLoginSubmit');
+      errEl.classList.add('hidden');
+      btn.disabled = true;
+
+      try {
+        await window.MSAdminFirebase.signIn(email, password);
+      } catch (err) {
+        const code = err?.code || '';
+        if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') {
+          errEl.textContent = 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+        } else if (code === 'auth/too-many-requests') {
+          errEl.textContent = 'محاولات كثيرة، يرجى الانتظار قليلاً ثم المحاولة.';
+        } else {
+          errEl.textContent = 'تعذر تسجيل الدخول، تأكد من الاتصال وحاول مجدداً.';
+        }
+        errEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function handleAdminSignOut() {
+      if (window.MSAdminFirebase && authUser) {
+        await window.MSAdminFirebase.signOutUser();
+      }
+      authUser = null;
+      updateAuthView();
+    }
+
+    function switchAdminSection(sectionName) {
+      const sections = { items: 'sectionItems', categories: 'sectionCategories', brand: 'sectionBrand' };
+      const buttons = { items: 'tabBtnItems', categories: 'tabBtnCategories', brand: 'tabBtnBrand' };
+
+      Object.keys(sections).forEach((key) => {
+        document.getElementById(sections[key]).classList.toggle('hidden', key !== sectionName);
+        document.getElementById(buttons[key]).className = key === sectionName
+          ? 'metallic-crimson-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold cursor-pointer'
+          : 'theme-pill-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold cursor-pointer';
+      });
+
+      if (sectionName === 'brand') populateBrandForm();
+    }
+
+    function renderStatsSummary() {
+      document.getElementById('statItemsCount').textContent = String(PRODUCTS.length);
+      document.getElementById('statCategoriesCount').textContent = String(CATEGORIES.length);
+    }
+
+    function populateCategoryDropdowns() {
+      const prodCatSelect = document.getElementById('prodCategory');
+      const filterCatSelect = document.getElementById('adminFilterCategorySelect');
+      const selectedFilter = filterCatSelect ? filterCatSelect.value : 'all';
+
+      if (prodCatSelect) {
+        prodCatSelect.innerHTML = CATEGORIES.map((c) => `<option value="${c.id}">${c.nameAr}</option>`).join('');
+      }
+      if (filterCatSelect) {
+        filterCatSelect.innerHTML = `<option value="all">كل الأقسام</option>` +
+          CATEGORIES.map((c) => `<option value="${c.id}">${c.nameAr}</option>`).join('');
+        filterCatSelect.value = selectedFilter || 'all';
+      }
+    }
+
+    function resetProductForm() {
+      document.getElementById('editingProductId').value = '';
+      document.getElementById('productEditorForm').reset();
+      document.getElementById('prodAvailable').checked = true;
+      document.getElementById('productFormTitle').textContent = 'إضافة صنف جديد';
+      document.getElementById('cancelProductEditBtn').classList.add('hidden');
+      populateCategoryDropdowns();
+    }
+
+    function startEditProduct(productId) {
+      const item = PRODUCTS.find((p) => p.id === productId);
+      if (!item) return;
+
+      document.getElementById('editingProductId').value = item.id;
+      document.getElementById('prodNameAr').value = item.nameAr || '';
+      document.getElementById('prodPrice').value = item.price || 0;
+      document.getElementById('prodCategory').value = item.category || (CATEGORIES[0]?.id || 'shawarma');
+      document.getElementById('prodBadgeAr').value = item.badgeAr || '';
+      document.getElementById('prodImageUrl').value = item.image || '';
+      document.getElementById('prodAvailable').checked = item.available !== false;
+      document.getElementById('prodFeatured').checked = Boolean(item.featured);
+      document.getElementById('prodDescAr').value = item.descAr || '';
+
+      document.getElementById('productFormTitle').textContent = 'تعديل الصنف';
+      document.getElementById('cancelProductEditBtn').classList.remove('hidden');
+      switchAdminSection('items');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function handleSaveProduct(e) {
+      e.preventDefault();
+      const existingId = document.getElementById('editingProductId').value.trim();
+      const name = document.getElementById('prodNameAr').value.trim();
+      const badge = document.getElementById('prodBadgeAr').value.trim();
+      const desc = document.getElementById('prodDescAr').value.trim();
+      const id = existingId || `ms-${Date.now()}`;
+
+      const item = {
+        id,
+        nameAr: name,
+        nameEn: name,
+        price: Number(document.getElementById('prodPrice').value) || 0,
+        category: document.getElementById('prodCategory').value,
+        badgeAr: badge,
+        badgeEn: badge,
+        image: document.getElementById('prodImageUrl').value.trim(),
+        available: document.getElementById('prodAvailable').checked,
+        featured: document.getElementById('prodFeatured').checked,
+        descAr: desc,
+        descEn: desc
+      };
+
+      const idx = PRODUCTS.findIndex((p) => p.id === id);
+      if (idx >= 0) PRODUCTS[idx] = item;
+      else PRODUCTS.unshift(item);
+
+      if (authUser) {
+        await window.MSAdminFirebase.saveProduct(item);
+      }
+
+      resetProductForm();
+      refreshAllAdminViews();
+      showAdminToast('تم حفظ الصنف');
+    }
+
+    async function toggleProductAvailability(productId) {
+      const item = PRODUCTS.find((p) => p.id === productId);
+      if (!item) return;
+      item.available = !(item.available !== false);
+      if (authUser) {
+        await window.MSAdminFirebase.updateProductAvailability(item.id, item.available);
+      }
+      refreshAllAdminViews();
+      showAdminToast(item.available ? 'تم تفعيل الصنف' : 'تم إيقاف الصنف');
+    }
+
+    async function deleteProduct(productId) {
+      PRODUCTS = PRODUCTS.filter((p) => p.id !== productId);
+      if (authUser) {
+        await window.MSAdminFirebase.deleteProduct(productId);
+      }
+      refreshAllAdminViews();
+      showAdminToast('تم حذف الصنف');
+    }
+
+    function renderProductsAdminList() {
+      const container = document.getElementById('adminProductsList');
+      if (!container) return;
+
+      const query = (document.getElementById('adminSearchInput')?.value || '').trim().toLowerCase();
+      const catFilter = document.getElementById('adminFilterCategorySelect')?.value || 'all';
+
+      const filtered = PRODUCTS.filter((p) => {
+        const matchesCat = catFilter === 'all' || p.category === catFilter;
+        const textMatch = !query || (p.nameAr || '').toLowerCase().includes(query);
+        return matchesCat && textMatch;
+      });
+
+      container.innerHTML = filtered.map((p) => {
+        const catObj = CATEGORIES.find((c) => c.id === p.category);
+        const catLabel = catObj ? catObj.nameAr : p.category;
+        const isAvail = p.available !== false;
+
+        return `
+          <div class="editorial-surface rounded-2xl p-4 flex flex-col justify-between gap-3">
+            <div class="space-y-1.5">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <span class="text-[11px] font-bold theme-accent-text">${catLabel || ''}</span>
+                  <h3 class="text-sm sm:text-base font-extrabold mt-0.5">${p.nameAr}</h3>
+                </div>
+                <span class="text-sm font-extrabold tabular-nums shrink-0">${formatPrice(p.price)}</span>
+              </div>
+              ${p.descAr ? `<p class="text-xs theme-muted-text line-clamp-2">${p.descAr}</p>` : ''}
+              <div class="flex items-center gap-1.5 pt-1">
+                <span class="text-[11px] font-bold px-2 py-0.5 rounded-md border theme-hairline-border ${isAvail ? 'theme-accent-text' : 'theme-muted-text'}">
+                  ${isAvail ? 'متوفر' : 'غير متوفر'}
+                </span>
+                ${p.featured ? `<span class="text-[11px] font-bold px-2 py-0.5 rounded-md border border-[#b91c28]/40 theme-accent-text">مميز</span>` : ''}
+              </div>
+            </div>
+
+            <div class="flex items-center gap-1.5 pt-3 border-t theme-hairline-border">
+              <button type="button" onclick="startEditProduct('${p.id}')" class="metallic-crimson-btn px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer">تعديل</button>
+              <button type="button" onclick="toggleProductAvailability('${p.id}')" class="theme-pill-btn px-2.5 py-1.5 rounded-lg text-xs font-bold cursor-pointer">${isAvail ? 'إيقاف' : 'تفعيل'}</button>
+              <button type="button" onclick="deleteProduct('${p.id}')" class="theme-pill-btn px-2.5 py-1.5 rounded-lg text-xs font-bold text-[#dc2626] cursor-pointer mr-auto">حذف</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function handleAddCategory(e) {
+      e.preventDefault();
+      const name = document.getElementById('newCatAr').value.trim();
+      if (!name) return;
+      const id = `cat-${Date.now()}`;
+      const newCat = { id, slug: id, nameAr: name, nameEn: name, order: CATEGORIES.length + 1 };
+
+      CATEGORIES.push(newCat);
+      if (authUser) {
+        await window.MSAdminFirebase.saveCategory(newCat);
+      }
+
+      document.getElementById('addCategoryForm').reset();
+      refreshAllAdminViews();
+      showAdminToast('تمت إضافة القسم');
+    }
+
+    async function moveCategory(index, direction) {
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= CATEGORIES.length) return;
+      const temp = CATEGORIES[index];
+      CATEGORIES[index] = CATEGORIES[targetIndex];
+      CATEGORIES[targetIndex] = temp;
+
+      for (let i = 0; i < CATEGORIES.length; i += 1) {
+        CATEGORIES[i].order = i + 1;
+        if (authUser) {
+          await window.MSAdminFirebase.saveCategory(CATEGORIES[i]);
+        }
+      }
+      refreshAllAdminViews();
+    }
+
+    async function deleteCategory(catId) {
+      if (CATEGORIES.length <= 1) return;
+      CATEGORIES = CATEGORIES.filter((c) => c.id !== catId);
+      if (authUser) {
+        await window.MSAdminFirebase.deleteCategory(catId);
+      }
+      refreshAllAdminViews();
+      showAdminToast('تم حذف القسم');
+    }
+
+    function renderCategoriesAdminList() {
+      const container = document.getElementById('adminCategoriesList');
+      if (!container) return;
+
+      container.innerHTML = CATEGORIES.map((c, idx) => `
+        <div class="editorial-surface rounded-xl p-3.5 flex items-center justify-between gap-3">
+          <span class="text-sm font-extrabold">${c.nameAr}</span>
+          <div class="flex items-center gap-1.5">
+            <button type="button" onclick="moveCategory(${idx}, -1)" class="theme-pill-btn px-2.5 py-1 rounded-lg text-xs font-bold cursor-pointer">▲</button>
+            <button type="button" onclick="moveCategory(${idx}, 1)" class="theme-pill-btn px-2.5 py-1 rounded-lg text-xs font-bold cursor-pointer">▼</button>
+            ${CATEGORIES.length > 1 ? `<button type="button" onclick="deleteCategory('${c.id}')" class="theme-pill-btn px-2.5 py-1 rounded-lg text-xs font-bold text-[#dc2626] cursor-pointer">حذف</button>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function populateBrandForm() {
+      document.getElementById('brandNameAr').value = STORE_SETTINGS.brandNameAr || '';
+      document.getElementById('brandTaglineAr').value = STORE_SETTINGS.taglineAr || '';
+      document.getElementById('currencyAr').value = STORE_SETTINGS.currencyAr || '';
+      document.getElementById('whatsappNumberInput').value = STORE_SETTINGS.whatsappNumber || '';
+    }
+
+    async function handleSaveBrandSettings(e) {
+      e.preventDefault();
+      const brandName = document.getElementById('brandNameAr').value.trim();
+      const tagline = document.getElementById('brandTaglineAr').value.trim();
+      const currency = document.getElementById('currencyAr').value.trim();
+
+      STORE_SETTINGS = {
+        ...STORE_SETTINGS,
+        brandNameAr: brandName,
+        brandNameEn: brandName,
+        taglineAr: tagline,
+        taglineEn: tagline,
+        currencyAr: currency,
+        currencyEn: currency,
+        whatsappNumber: document.getElementById('whatsappNumberInput').value.trim()
+      };
+
+      if (authUser) {
+        await window.MSAdminFirebase.saveSettings(STORE_SETTINGS);
+      }
+
+      refreshAllAdminViews();
+      showAdminToast('تم حفظ الإعدادات');
+    }
+
+    async function handleSeedDefaultData() {
+      if (!authUser) return;
+      await window.MSAdminFirebase.seedDefaults(PRODUCTS, CATEGORIES, STORE_SETTINGS);
+      showAdminToast('تمت استعادة البيانات الافتراضية');
+    }
+
+    function refreshAllAdminViews() {
+      renderStatsSummary();
+      populateCategoryDropdowns();
+      renderProductsAdminList();
+      renderCategoriesAdminList();
+    }
+
+    window.addEventListener('ms-admin:auth', (e) => {
+      authUser = e.detail?.user || null;
+      updateAuthView();
+    });
+
+    window.addEventListener('ms-admin:menu-data', (e) => {
+      if (Array.isArray(e.detail?.items) && e.detail.items.length > 0) {
+        PRODUCTS = e.detail.items;
+        renderStatsSummary();
+        renderProductsAdminList();
+      }
+    });
+
+    window.addEventListener('ms-admin:categories-data', (e) => {
+      if (Array.isArray(e.detail?.categories) && e.detail.categories.length > 0) {
+        CATEGORIES = e.detail.categories;
+        renderStatsSummary();
+        populateCategoryDropdowns();
+        renderCategoriesAdminList();
+      }
+    });
+
+    window.addEventListener('ms-admin:settings-data', (e) => {
+      if (e.detail?.settings) {
+        STORE_SETTINGS = { ...STORE_SETTINGS, ...e.detail.settings };
+        populateBrandForm();
+        renderProductsAdminList();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      applyTheme(currentTheme);
+      updateAuthView();
+    });
+  </script>
+
+  <script type="module">
+    import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged
+    } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+    import {
+      getFirestore,
+      collection,
+      doc,
+      setDoc,
+      updateDoc,
+      deleteDoc,
+      onSnapshot
+    } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+
+    const FIREBASE_CONFIG = {
+      apiKey: 'AIzaSyBW7J44fwJvC5AyiZOGOj8P97FIkTzMWYw',
+      authDomain: 'm-and-s-a17dd.firebaseapp.com',
+      projectId: 'm-and-s-a17dd',
+      storageBucket: 'm-and-s-a17dd.firebasestorage.app',
+      messagingSenderId: '660263959688',
+      appId: '1:660263959688:web:a54532b7511a771fd1333d',
+      measurementId: 'G-MDFR7JK8KZ'
+    };
+
+    const appName = 'ms-admin-app';
+    const appInstance = getApps().some((a) => a.name === appName)
+      ? getApp(appName)
+      : initializeApp(FIREBASE_CONFIG, appName);
+    const authInstance = getAuth(appInstance);
+    const dbInstance = getFirestore(appInstance);
+
+    onAuthStateChanged(authInstance, (user) => {
+      window.dispatchEvent(new CustomEvent('ms-admin:auth', { detail: { user } }));
+    });
+
+    onSnapshot(collection(dbInstance, 'ms_menu'), (snap) => {
+      const items = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+      window.dispatchEvent(new CustomEvent('ms-admin:menu-data', { detail: { items } }));
+    });
+
+    onSnapshot(collection(dbInstance, 'ms_categories'), (snap) => {
+      const cats = snap.docs.map((d) => ({ id: d.id, ...d.data() }))
+        .sort((a, b) => (a.order || 99) - (b.order || 99));
+      window.dispatchEvent(new CustomEvent('ms-admin:categories-data', { detail: { categories: cats } }));
+    });
+
+    onSnapshot(doc(dbInstance, 'ms_settings', 'brand'), (snap) => {
+      if (snap.exists()) {
+        window.dispatchEvent(new CustomEvent('ms-admin:settings-data', { detail: { settings: snap.data() } }));
+      }
+    });
+
+    window.MSAdminFirebase = {
+      signIn: (email, password) => signInWithEmailAndPassword(authInstance, email, password),
+      signOutUser: () => signOut(authInstance),
+      saveProduct: (item) => setDoc(doc(dbInstance, 'ms_menu', item.id), item, { merge: true }),
+      updateProductAvailability: (id, available) => updateDoc(doc(dbInstance, 'ms_menu', id), { available }),
+      deleteProduct: (id) => deleteDoc(doc(dbInstance, 'ms_menu', id)),
+      saveCategory: (cat) => setDoc(doc(dbInstance, 'ms_categories', cat.id), cat, { merge: true }),
+      deleteCategory: (id) => deleteDoc(doc(dbInstance, 'ms_categories', id)),
+      saveSettings: (settings) => setDoc(doc(dbInstance, 'ms_settings', 'brand'), settings, { merge: true }),
+      seedDefaults: async (products, categories, settings) => {
+        await setDoc(doc(dbInstance, 'ms_settings', 'brand'), settings, { merge: true });
+        for (const cat of categories) {
+          await setDoc(doc(dbInstance, 'ms_categories', cat.id), cat, { merge: true });
+        }
+        for (const item of products) {
+          await setDoc(doc(dbInstance, 'ms_menu', item.id), item, { merge: true });
+        }
+      }
+    };
+  </script>
+</body>
+</html>
